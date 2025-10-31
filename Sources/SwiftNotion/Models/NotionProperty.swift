@@ -6,8 +6,8 @@
 //
 
 public struct NotionPropertiesResults: Codable {
-    let object: String
-    let results: [NotionProperty]
+    public let object: String
+    public let results: [NotionProperty]
 }
 
 public struct NotionProperties: Codable {
