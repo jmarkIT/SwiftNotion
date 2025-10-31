@@ -10,11 +10,11 @@ public struct NotionPropertiesResults: Codable {
     let results: [NotionProperty]
 }
 
-struct NotionProperties: Codable {
+public struct NotionProperties: Codable {
     let properties: [String: NotionProperty]
 }
 
-struct NotionProperty: Codable {
+public struct NotionProperty: Codable {
     let id: String
     let type: NotionPropertyType
 
@@ -70,7 +70,7 @@ enum NotionPropertyType: String, Codable {
     case people  // TODO: Implement in NotionProperty
 }
 
-struct RichText: Codable {
+public struct RichText: Codable {
     let type: String?
     let plainText: String?
     let href: String?
@@ -84,18 +84,18 @@ struct RichText: Codable {
     }
 }
 
-struct TextContent: Codable {
+public struct TextContent: Codable {
     let content: String
     let link: [String: String]?
 }
 
-struct SelectProperty: Codable {
+public struct SelectProperty: Codable {
     let id: String?
     let name: String
     let color: String
 }
 
-struct Person: Codable {
+public struct Person: Codable {
     let object: String
     let id: String
     let name: String

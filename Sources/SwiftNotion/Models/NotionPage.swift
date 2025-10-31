@@ -24,7 +24,7 @@ public struct NotionPage: Codable {
     }
 }
 
-struct NotionPageUser: Codable {
+public struct NotionPageUser: Codable {
     let object: String
     let id: String
 }

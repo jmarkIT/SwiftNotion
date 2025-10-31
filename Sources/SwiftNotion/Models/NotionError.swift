@@ -5,7 +5,7 @@
 //  Created by James Mark on 8/21/25.
 //
 
-struct NotionError: Codable, Error {
+public struct NotionError: Codable, Error {
     let object: String
     let status: Int
     let code: String
