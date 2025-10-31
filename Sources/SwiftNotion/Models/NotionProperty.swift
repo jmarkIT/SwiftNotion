@@ -11,20 +11,20 @@ public struct NotionPropertiesResults: Codable {
 }
 
 public struct NotionProperties: Codable {
-    let properties: [String: NotionProperty]
+    public let properties: [String: NotionProperty]
 }
 
 public struct NotionProperty: Codable {
-    let id: String
+    public let id: String
     let type: NotionPropertyType
 
-    let title: [RichText]?
-    let richText: [RichText]?
-    let number: Double?
-    let checkbox: Bool?
-    let select: SelectProperty?
-    let multiSelect: [SelectProperty]?
-    let people: Person?
+    public let title: [RichText]?
+    public let richText: [RichText]?
+    public let number: Double?
+    public let checkbox: Bool?
+    public let select: SelectProperty?
+    public let multiSelect: [SelectProperty]?
+    public let people: Person?
 
     init(
         id: String,
@@ -71,10 +71,10 @@ enum NotionPropertyType: String, Codable {
 }
 
 public struct RichText: Codable {
-    let type: String?
-    let plainText: String?
-    let href: String?
-    let text: TextContent?
+    public let type: String?
+    public let plainText: String?
+    public let href: String?
+    public let text: TextContent?
 
     enum CodingKeys: String, CodingKey {
         case type
@@ -85,23 +85,23 @@ public struct RichText: Codable {
 }
 
 public struct TextContent: Codable {
-    let content: String
-    let link: [String: String]?
+    public let content: String
+    public let link: [String: String]?
 }
 
 public struct SelectProperty: Codable {
-    let id: String?
-    let name: String
-    let color: String
+    public let id: String?
+    public let name: String
+    public let color: String
 }
 
 public struct Person: Codable {
-    let object: String
-    let id: String
-    let name: String
+    public let object: String
+    public let id: String
+    public let name: String
     let type: PeopleType
-    let person: [String: String]
-    
+    public let person: [String: String]
+
 }
 
 enum PeopleType: String, Codable {

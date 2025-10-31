@@ -6,8 +6,8 @@
 //
 
 public struct NotionError: Codable, Error {
-    let object: String
-    let status: Int
-    let code: String
-    let message: String
+    public let object: String
+    public let status: Int
+    public let code: String
+    public let message: String
 }
