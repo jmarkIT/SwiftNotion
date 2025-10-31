@@ -5,7 +5,7 @@
 //  Created by James Mark on 8/21/25.
 //
 
-struct NotionPropertiesResults: Codable {
+public struct NotionPropertiesResults: Codable {
     let object: String
     let results: [NotionProperty]
 }

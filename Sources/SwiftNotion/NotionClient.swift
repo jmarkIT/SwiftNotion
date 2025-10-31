@@ -78,7 +78,7 @@ extension NotionClient {
 }
 
 extension NotionClient {
-    func getPageProperty(pageId: String, propertyId: String) async throws
+    public func getPageProperty(pageId: String, propertyId: String) async throws
         -> NotionPropertiesResults
     {
         let normalizedPropertyId =
@@ -98,7 +98,7 @@ extension NotionClient {
 }
 
 extension NotionClient {
-    func getDatabaseRows(dataSourceId: String) async throws -> [NotionPage] {
+    public func getDatabaseRows(dataSourceId: String) async throws -> [NotionPage] {
         var databaseRows: [NotionPage] = []
         var queryResults: NotionDatabaseQueryResponse = try await perform(
             ["data_sources", dataSourceId, "query"],

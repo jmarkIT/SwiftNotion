@@ -5,7 +5,7 @@
 //  Created by James Mark on 8/21/25.
 //
 
-struct NotionPage: Codable {
+public struct NotionPage: Codable {
     let object: String
     let id: String
     let createdTime: String
