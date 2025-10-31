@@ -6,14 +6,14 @@
 //
 
 public struct NotionPage: Codable {
-    let object: String
-    let id: String
-    let createdTime: String
-    let lastEditedTime: String
-    let createdBy: NotionPageUser
-    let lastEditedBy: NotionPageUser
-    let properties: [String: NotionProperty]
-    let url: String
+    public let object: String
+    public let id: String
+    public let createdTime: String
+    public let lastEditedTime: String
+    public let createdBy: NotionPageUser
+    public let lastEditedBy: NotionPageUser
+    public let properties: [String: NotionProperty]
+    public let url: String
 
     enum CodingKeys: String, CodingKey {
         case object, id, url, properties
@@ -25,6 +25,6 @@ public struct NotionPage: Codable {
 }
 
 public struct NotionPageUser: Codable {
-    let object: String
-    let id: String
+    public let object: String
+    public let id: String
 }
