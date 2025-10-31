@@ -7,10 +7,10 @@
 
 import Foundation
 
-class NotionClient {
+public class NotionClient {
     private let session: URLSession
 
-    init(session: URLSession = .shared) {
+    public init(session: URLSession = .shared) {
         self.session = session
     }
 
@@ -81,7 +81,8 @@ extension NotionClient {
     func getPageProperty(pageId: String, propertyId: String) async throws
         -> NotionPropertiesResults
     {
-        let normalizedPropertyId = propertyId.removingPercentEncoding ?? propertyId
+        let normalizedPropertyId =
+            propertyId.removingPercentEncoding ?? propertyId
         let pageProperty: NotionPropertiesResults = try await perform([
             "pages", pageId, "properties", normalizedPropertyId,
         ])
