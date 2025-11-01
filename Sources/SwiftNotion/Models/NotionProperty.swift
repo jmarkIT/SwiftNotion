@@ -109,7 +109,7 @@ enum PeopleType: String, Codable {
 }
 
 extension NotionProperty {
-    var plainText: String? {
+    public var plainText: String? {
         switch type {
         case .title:
             return title?.compactMap { $0.plainText }.joined() ?? ""
