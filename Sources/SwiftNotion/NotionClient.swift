@@ -9,9 +9,11 @@ import Foundation
 
 public class NotionClient {
     private let session: URLSession
+    public let cfg: NotionConfig
 
-    public init(session: URLSession = .shared) {
+    public init(session: URLSession = .shared, cfg: NotionConfig) {
         self.session = session
+        self.cfg = cfg
     }
 
     private func makeRequest(
@@ -30,7 +32,7 @@ public class NotionClient {
         request.httpBody = body
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.setValue(
-            "Bearer \(NotionConfig.authToken)",
+            "Bearer \(cfg.authToken)",
             forHTTPHeaderField: "Authorization"
         )
         request.setValue(
