@@ -111,7 +111,11 @@ public struct Person: Codable {
     public let name: String
     let type: PeopleType
     public let person: [String: String]
+}
 
+public struct Date: Codable {
+    public let start: String
+    public let end: String?
 }
 
 enum PeopleType: String, Codable {
