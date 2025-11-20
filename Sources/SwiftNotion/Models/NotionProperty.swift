@@ -25,6 +25,7 @@ public struct NotionProperty: Codable {
     public let select: SelectProperty?
     public let multiSelect: [SelectProperty]?
     public let people: Person?
+    public let date: NotionDate?
 
     init(
         id: String,
@@ -35,7 +36,8 @@ public struct NotionProperty: Codable {
         checkbox: Bool? = nil,
         select: SelectProperty? = nil,
         multiSelect: [SelectProperty]? = nil,
-        people: Person? = nil
+        people: Person? = nil,
+        date: NotionDate? = nil
     ) {
         self.id = id
         self.type = type
@@ -46,10 +48,11 @@ public struct NotionProperty: Codable {
         self.select = select
         self.multiSelect = multiSelect
         self.people = people
+        self.date = date
     }
 
     enum CodingKeys: String, CodingKey {
-        case id, type, title, number, checkbox, select, people
+        case id, type, title, number, checkbox, select, people, date
         case richText = "rich_text"
         case multiSelect = "multi_select"
     }
@@ -113,7 +116,7 @@ public struct Person: Codable {
     public let person: [String: String]
 }
 
-public struct Date: Codable {
+public struct NotionDate: Codable {
     public let start: String
     public let end: String?
 }
