@@ -74,7 +74,7 @@ public class NotionClient {
 }
 
 extension NotionClient {
-    func fetchPage(pageId: String) async throws -> NotionPage {
+    public func getPage(pageId: String) async throws -> NotionPage {
         return try await perform(["pages", pageId])
     }
 }
