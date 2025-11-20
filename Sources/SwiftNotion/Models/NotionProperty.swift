@@ -68,6 +68,16 @@ enum NotionPropertyType: String, Codable {
     case rollup  // TODO: Implement in NotionProperty
     case relation  // TODO: Implement in NotionProperty
     case people  // TODO: Implement in NotionProperty
+    case createdBy = "created_by"  // TODO: Implement in Notion Property
+    case createdTime = "created_time"  // TODO: Implement in Notion Property
+    case lastEditedBy = "last_edited_by"  // TODO: Implement in Notion Property
+    case lastEditedTime = "last_edited_time"  // TODO: Implement in Notion Property
+    case date  // TODO: Implement in Notion Property
+    case email  // TODO: Implement in Notion Property
+    case files  // TODO: Implement in Notion Property
+    case phoneNumber = "phone_number"  // TODO: Implement in Notion Property
+    case place  // TODO: Implement in Notion Property
+    case status  // TODO: Implement in Notion Property
 }
 
 public struct RichText: Codable {
