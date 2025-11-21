@@ -26,6 +26,7 @@ public struct NotionProperty: Codable {
     public let multiSelect: [SelectProperty]?
     public let people: Person?
     public let date: NotionDate?
+    public let relation: NotionRelation?
 
     init(
         id: String,
@@ -37,7 +38,8 @@ public struct NotionProperty: Codable {
         select: SelectProperty? = nil,
         multiSelect: [SelectProperty]? = nil,
         people: Person? = nil,
-        date: NotionDate? = nil
+        date: NotionDate? = nil,
+        relation: NotionRelation? = nil
     ) {
         self.id = id
         self.type = type
@@ -49,10 +51,11 @@ public struct NotionProperty: Codable {
         self.multiSelect = multiSelect
         self.people = people
         self.date = date
+        self.relation = relation
     }
 
     enum CodingKeys: String, CodingKey {
-        case id, type, title, number, checkbox, select, people, date
+        case id, type, title, number, checkbox, select, people, date, relation
         case richText = "rich_text"
         case multiSelect = "multi_select"
     }
@@ -69,7 +72,7 @@ enum NotionPropertyType: String, Codable {
     case url  // TODO: Implement in NotionProperty
     case formula  // TODO: Implement in NotionProperty
     case rollup  // TODO: Implement in NotionProperty
-    case relation  // TODO: Implement in NotionProperty
+    case relation
     case people  // TODO: Implement in NotionProperty
     case createdBy = "created_by"  // TODO: Implement in Notion Property
     case createdTime = "created_time"  // TODO: Implement in Notion Property
@@ -123,6 +126,10 @@ public struct NotionDate: Codable {
 
 enum PeopleType: String, Codable {
     case person
+}
+
+public struct NotionRelation: Codable {
+    public let id: String
 }
 
 extension NotionProperty {
