@@ -26,7 +26,7 @@ public struct NotionProperty: Codable {
     public let multiSelect: [SelectProperty]?
     public let people: Person?
     public let date: NotionDate?
-    public let relation: NotionRelation?
+    public let relation: [NotionRelation]?
 
     init(
         id: String,
@@ -39,7 +39,7 @@ public struct NotionProperty: Codable {
         multiSelect: [SelectProperty]? = nil,
         people: Person? = nil,
         date: NotionDate? = nil,
-        relation: NotionRelation? = nil
+        relation: [NotionRelation]? = nil
     ) {
         self.id = id
         self.type = type
