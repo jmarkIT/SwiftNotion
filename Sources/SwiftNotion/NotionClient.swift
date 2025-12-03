@@ -83,8 +83,9 @@ extension NotionClient {
     public func getPageProperty(pageId: String, propertyId: String) async throws
         -> NotionPropertiesResults
     {
-        let normalizedPropertyId =
-            propertyId.removingPercentEncoding ?? propertyId
+//        let normalizedPropertyId =
+//            propertyId.removingPercentEncoding ?? propertyId
+        let normalizedPropertyId = propertyId
         let pageProperty: NotionPropertiesResults = try await perform([
             "pages", pageId, "properties", normalizedPropertyId,
         ])
