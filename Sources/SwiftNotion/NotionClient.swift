@@ -18,7 +18,7 @@ public actor NotionClient: APIClient {
         self.baseURL = NotionConfig.baseURL
         self.defaultHeaders = [
             "Accept": "application/json", "Content-Type": "application/json",
-            "Authorization": "Bearer \(cfg.authToken)",
+            "Authorization": "Bearer \(cfg.authToken)", "Notion-Version": NotionConfig.apiVersion
         ]
     }
 
