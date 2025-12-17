@@ -5,16 +5,16 @@
 //  Created by James Mark on 8/21/25.
 //
 
-public struct NotionPropertiesResults: Codable {
+public struct NotionPropertiesResults: Codable, Sendable {
     public let object: String
     public let results: [NotionProperty]
 }
 
-public struct NotionProperties: Codable {
+public struct NotionProperties: Codable, Sendable{
     public let properties: [String: NotionProperty]
 }
 
-public struct NotionProperty: Codable {
+public struct NotionProperty: Codable, Sendable {
     public let id: String
     let type: NotionPropertyType
 
@@ -86,7 +86,7 @@ enum NotionPropertyType: String, Codable {
     case status  // TODO: Implement in Notion Property
 }
 
-public struct RichText: Codable {
+public struct RichText: Codable, Sendable {
     public let type: String?
     public let plainText: String?
     public let href: String?
@@ -100,18 +100,18 @@ public struct RichText: Codable {
     }
 }
 
-public struct TextContent: Codable {
+public struct TextContent: Codable, Sendable {
     public let content: String
     public let link: [String: String]?
 }
 
-public struct SelectProperty: Codable {
+public struct SelectProperty: Codable, Sendable {
     public let id: String?
     public let name: String
     public let color: String
 }
 
-public struct Person: Codable {
+public struct Person: Codable, Sendable {
     public let object: String
     public let id: String
     public let name: String
@@ -119,7 +119,7 @@ public struct Person: Codable {
     public let person: [String: String]
 }
 
-public struct NotionDate: Codable {
+public struct NotionDate: Codable, Sendable {
     public let start: String
     public let end: String?
 }
@@ -128,7 +128,7 @@ enum PeopleType: String, Codable {
     case person
 }
 
-public struct NotionRelation: Codable {
+public struct NotionRelation: Codable, Sendable {
     public let id: String
 }
 

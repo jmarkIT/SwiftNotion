@@ -5,7 +5,7 @@
 //  Created by James Mark on 8/21/25.
 //
 
-public struct NotionDatabaseQueryResponse: Codable {
+public struct NotionDatabaseQueryResponse: Codable, Sendable {
     let object: String
     let results: [NotionPage]
     let nextCursor: String?
@@ -23,7 +23,7 @@ public struct NotionDatabaseQueryResponse: Codable {
     }
 }
 
-public struct NotionDatabaseQueryBody: Encodable {
+public struct NotionDatabaseQueryBody: Encodable, Sendable {
     let startCursor: String?
 
     enum CodingKeys: String, CodingKey {

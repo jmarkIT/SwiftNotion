@@ -5,7 +5,7 @@
 //  Created by James Mark on 8/21/25.
 //
 
-public struct NotionPage: Codable {
+public struct NotionPage: Codable, Sendable {
     public let object: String
     public let id: String
     public let createdTime: String
@@ -24,7 +24,7 @@ public struct NotionPage: Codable {
     }
 }
 
-public struct NotionPageUser: Codable {
+public struct NotionPageUser: Codable, Sendable {
     public let object: String
     public let id: String
 }
