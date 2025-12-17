@@ -6,106 +6,138 @@
 //
 
 import Foundation
+import SwiftAPIClient
 
-public class NotionClient {
-    private let session: URLSession
-    public let cfg: NotionConfig
+public actor NotionClient: APIClient {
+    public let session: URLSession
+    public let baseURL: URL
+    public let defaultHeaders: [String: String]
 
     public init(session: URLSession = .shared, cfg: NotionConfig) {
         self.session = session
-        self.cfg = cfg
+        self.baseURL = NotionConfig.baseURL
+        self.defaultHeaders = [
+            "Accept": "application/json", "Content-Type": "application/json",
+            "Authorization": "Bearer \(cfg.authToken)",
+        ]
     }
 
-    private func makeRequest(
-        pathComponents: [String],
-        method: String = "GET",
-        body: Data? = nil
-    ) -> URLRequest {
-        var url = NotionConfig.apiBaseURL
-        for component in pathComponents {
-            url.append(path: component)
-        }
-        var request = URLRequest(
-            url: url
-        )
-        request.httpMethod = method
-        request.httpBody = body
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.setValue(
-            "Bearer \(cfg.authToken)",
-            forHTTPHeaderField: "Authorization"
-        )
-        request.setValue(
-            NotionConfig.apiVersion,
-            forHTTPHeaderField: "Notion-Version"
-        )
-        return request
-    }
-
-    func perform<T: Decodable>(
-        _ pathComponents: [String],
-        method: String = "GET",
-        body: Data? = nil
-    ) async throws -> T {
-        let request = makeRequest(
-            pathComponents: pathComponents,
-            method: method,
-            body: body
-        )
-        let (data, response) = try await session.data(for: request)
-
-        guard let httpResponse = response as? HTTPURLResponse else {
-            throw URLError(.badServerResponse)
-        }
-
-        if !(200..<300).contains(httpResponse.statusCode) {
-            if let notionError = try? JSONDecoder().decode(
-                NotionError.self,
-                from: data
-            ) {
-                throw notionError
-            } else {
-                throw URLError(.badServerResponse)
-            }
-        }
-
-        return try JSONDecoder().decode(T.self, from: data)
+    public func prepareForRequest() async {
     }
 }
 
+//public class NotionClient {
+//    private let session: URLSession
+//    public let cfg: NotionConfig
+//
+//    public init(session: URLSession = .shared, cfg: NotionConfig) {
+//        self.session = session
+//        self.cfg = cfg
+//    }
+//
+//    private func makeRequest(
+//        pathComponents: [String],
+//        method: String = "GET",
+//        body: Data? = nil
+//    ) -> URLRequest {
+//        var url = NotionConfig.apiBaseURL
+//        for component in pathComponents {
+//            url.append(path: component)
+//        }
+//        var request = URLRequest(
+//            url: url
+//        )
+//        request.httpMethod = method
+//        request.httpBody = body
+//        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+//        request.setValue(
+//            "Bearer \(cfg.authToken)",
+//            forHTTPHeaderField: "Authorization"
+//        )
+//        request.setValue(
+//            NotionConfig.apiVersion,
+//            forHTTPHeaderField: "Notion-Version"
+//        )
+//        return request
+//    }
+//
+//    func perform<T: Decodable>(
+//        _ pathComponents: [String],
+//        method: String = "GET",
+//        body: Data? = nil
+//    ) async throws -> T {
+//        let request = makeRequest(
+//            pathComponents: pathComponents,
+//            method: method,
+//            body: body
+//        )
+//        let (data, response) = try await session.data(for: request)
+//
+//        guard let httpResponse = response as? HTTPURLResponse else {
+//            throw URLError(.badServerResponse)
+//        }
+//
+//        if !(200..<300).contains(httpResponse.statusCode) {
+//            if let notionError = try? JSONDecoder().decode(
+//                NotionError.self,
+//                from: data
+//            ) {
+//                throw notionError
+//            } else {
+//                throw URLError(.badServerResponse)
+//            }
+//        }
+//
+//        return try JSONDecoder().decode(T.self, from: data)
+//    }
+//}
+//
 extension NotionClient {
     public func getPage(pageId: String) async throws -> NotionPage {
-        return try await perform(["pages", pageId])
+        return try await get("pages/\(pageId)")
     }
 }
-
+//extension NotionClient {
+//    public func getPage(pageId: String) async throws -> NotionPage {
+//        return try await perform(["pages", pageId])
+//    }
+//}
+//
 extension NotionClient {
     public func getPageProperty(pageId: String, propertyId: String) async throws
         -> NotionPropertiesResults
     {
-//        let normalizedPropertyId =
-//            propertyId.removingPercentEncoding ?? propertyId
-        let normalizedPropertyId = propertyId
-        let pageProperty: NotionPropertiesResults = try await perform([
-            "pages", pageId, "properties", normalizedPropertyId,
-        ])
-        //        if pageProperty.results[0].type == NotionPropertyType.rollup {
-        //            let rollupPropertyId = pageProperty.results[0].id.removingPercentEncoding ?? ""
-        //            pageProperty = try await perform([
-        //                "pages", pageId, "properties", rollupPropertyId
-        //            ])
-
-        //        }
-        return pageProperty
+        return try await get("pages/\(pageId)/properties/\(propertyId)")
     }
 }
-
+//extension NotionClient {
+//    public func getPageProperty(pageId: String, propertyId: String) async throws
+//        -> NotionPropertiesResults
+//    {
+////        let normalizedPropertyId =
+////            propertyId.removingPercentEncoding ?? propertyId
+//        let normalizedPropertyId = propertyId
+//        let pageProperty: NotionPropertiesResults = try await perform([
+//            "pages", pageId, "properties", normalizedPropertyId,
+//        ])
+//        //        if pageProperty.results[0].type == NotionPropertyType.rollup {
+//        //            let rollupPropertyId = pageProperty.results[0].id.removingPercentEncoding ?? ""
+//        //            pageProperty = try await perform([
+//        //                "pages", pageId, "properties", rollupPropertyId
+//        //            ])
+//
+//        //        }
+//        return pageProperty
+//    }
+//}
+//
 extension NotionClient {
-    public func getDatabaseRows(dataSourceId: String) async throws -> [NotionPage] {
+    public func getDatabaseRows(dataSourceId: String) async throws
+        -> [NotionPage]
+    {
         var databaseRows: [NotionPage] = []
-        var queryResults: NotionDatabaseQueryResponse = try await perform(
-            ["data_sources", dataSourceId, "query"],
-            method: "POST",
+        var queryResults: NotionDatabaseQueryResponse = try await post(
+            "data_sources/\(dataSourceId)/query"
         )
         databaseRows.append(contentsOf: queryResults.results)
         while queryResults.hasMore {
@@ -113,10 +145,8 @@ extension NotionClient {
                 startCursor: queryResults.nextCursor
             )
             let bodyData = try JSONEncoder().encode(body)
-
-            queryResults = try await perform(
-                ["data_sources", dataSourceId, "query"],
-                method: "POST",
+            queryResults = try await post(
+                "data_sources/\(dataSourceId)/query",
                 body: bodyData
             )
 
@@ -125,17 +155,42 @@ extension NotionClient {
         return databaseRows
     }
 }
-
-extension NotionClient {
-    func updatePageProperties(pageId: String, properties: NotionProperties)
-        async throws
-    {
-        let bodyData = try JSONEncoder().encode(properties)
-        _ =
-            try await perform(
-                ["pages", pageId],
-                method: "PATCH",
-                body: bodyData
-            ) as NotionPage
-    }
-}
+//extension NotionClient {
+//    public func getDatabaseRows(dataSourceId: String) async throws -> [NotionPage] {
+//        var databaseRows: [NotionPage] = []
+//        var queryResults: NotionDatabaseQueryResponse = try await perform(
+//            ["data_sources", dataSourceId, "query"],
+//            method: "POST",
+//        )
+//        databaseRows.append(contentsOf: queryResults.results)
+//        while queryResults.hasMore {
+//            let body = NotionDatabaseQueryBody(
+//                startCursor: queryResults.nextCursor
+//            )
+//            let bodyData = try JSONEncoder().encode(body)
+//
+//            queryResults = try await perform(
+//                ["data_sources", dataSourceId, "query"],
+//                method: "POST",
+//                body: bodyData
+//            )
+//
+//            databaseRows.append(contentsOf: queryResults.results)
+//        }
+//        return databaseRows
+//    }
+//}
+//
+//extension NotionClient {
+//    func updatePageProperties(pageId: String, properties: NotionProperties)
+//        async throws
+//    {
+//        let bodyData = try JSONEncoder().encode(properties)
+//        _ =
+//            try await perform(
+//                ["pages", pageId],
+//                method: "PATCH",
+//                body: bodyData
+//            ) as NotionPage
+//    }
+//}

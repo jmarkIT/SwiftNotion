@@ -1,0 +1,15 @@
+{
+  "originHash" : "19e2936f2523c7328233fdf3af90217187bb34c392f115202dc172b54c162d23",
+  "pins" : [
+    {
+      "identity" : "swiftapiclient",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/jmarkIT/SwiftAPIClient.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "ffa4d01ee9f64b676a7fab3ef36c34f0804fdb60"
+      }
+    }
+  ],
+  "version" : 3
+}
